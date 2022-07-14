@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/master_background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Upload New Article"
+        android:textColor="@color/text_color"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:alpha=".7"
+
+        android:background="@drawable/arc_path"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".80"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/article_name_container"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:boxStrokeColor="@color/white"
+        app:hintTextColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/bottom_view"
+        app:layout_constraintStart_toStartOf="@id/bottom_view"
+        app:layout_constraintTop_toTopOf="@id/bottom_view"
+        app:layout_constraintWidth_percent=".8">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name_field"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Article Name"
+            android:inputType="text"
+            android:textColorHint="@color/text_color" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/university_name_container"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:boxStrokeColor="@color/white"
+        app:hintTextColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/bottom_view"
+        app:layout_constraintStart_toStartOf="@id/bottom_view"
+        app:layout_constraintTop_toBottomOf="@id/article_name_container"
+        app:layout_constraintWidth_percent=".8">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/univ_filed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="University Name"
+            android:inputType="text"
+            android:textColorHint="@color/text_color" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/doctors_menu_container"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:hint="Choose Doctor"
+        app:boxStrokeColor="@color/white"
+        app:hintTextColor="@color/white"
+
+        app:layout_constraintEnd_toEndOf="@id/bottom_view"
+        app:layout_constraintStart_toStartOf="@id/bottom_view"
+        app:layout_constraintTop_toBottomOf="@id/university_name_container"
+        app:layout_constraintWidth_percent=".8">
+
+        <AutoCompleteTextView
+            android:id="@+id/doctor_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/is_research"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Research ?"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/university_name_container"
+        app:layout_constraintTop_toBottomOf="@id/doctors_menu_container" />
+
+    <ImageView
+        android:id="@+id/choose_file"
+        android:layout_width="0dp"
+
+        android:layout_height="0dp"
+        android:rotation="-90"
+        android:src="@drawable/ic_baseline_add_link_24"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="@id/is_research"
+        app:layout_constraintTop_toBottomOf="@id/is_research"
+        app:layout_constraintWidth_percent="0.2"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/file_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/poppins_medium"
+        android:padding="4dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:lines="1"
+        app:layout_constraintBottom_toBottomOf="@id/choose_file"
+        app:layout_constraintEnd_toEndOf="@id/doctors_menu_container"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toEndOf="@id/choose_file"
+        app:layout_constraintTop_toTopOf="@id/choose_file"
+        tools:text="pdf.pdf" />
+
+    <Button
+        android:id="@+id/upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        android:text="upload"
+        android:alpha="0.65"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintEnd_toEndOf="@id/university_name_container"
+        app:layout_constraintStart_toStartOf="@id/university_name_container"
+        app:layout_constraintTop_toBottomOf="@id/choose_file" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "219338257172",
+    "project_id": "articles-e1fd6",
+    "storage_bucket": "articles-e1fd6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219338257172:android:976b9b77f56e6b0e46c801",
+        "android_client_info": {
+          "package_name": "com.inferno.mobile.articals"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "219338257172-iog2q1nmdr1nt43me4pea0pa2rvaug1r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG373SSrY-xeVRG_eUFRqL2lh61g5t380"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "219338257172-iog2q1nmdr1nt43me4pea0pa2rvaug1r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

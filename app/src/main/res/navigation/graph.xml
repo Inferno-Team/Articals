@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.inferno.mobile.articals.ui.home.HomeFragment"
+        tools:layout="@layout/home_fragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_articleDetailsFragment"
+            app:destination="@id/articleDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.inferno.mobile.articals.ui.login.LoginFragment"
+        tools:layout="@layout/login_fragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myArticlesFragment"
+        android:name="com.inferno.mobile.articals.ui.master.my_articles.MyArticlesFragment"
+        android:label="MyArticlesFragment" >
+        <action
+            android:id="@+id/action_masterMyArticlesFragment_to_addArticleFragment"
+            app:destination="@id/addArticleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSettings"
+        android:name="com.inferno.mobile.articals.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/addArticleFragment"
+        android:name="com.inferno.mobile.articals.ui.master.my_articles.add_article.AddArticleFragment"
+        android:label="AddArticleFragment" />
+    <fragment
+        android:id="@+id/requestFragment"
+        android:name="com.inferno.mobile.articals.ui.doctor.requests.RequestFragment"
+        android:label="RequestFragment" />
+    <fragment
+        android:id="@+id/articleDetailsFragment"
+        android:name="com.inferno.mobile.articals.ui.article_details.ArticleDetailsFragment"
+        android:label="article_details_layout"
+        tools:layout="@layout/article_details_layout" >
+        <argument
+            android:name="article_id"
+            app:argType="integer" />
+        <argument
+            android:name="for_show"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument android:name="file_path"
+            app:argType="string" />
+    </fragment>
+    <fragment android:id="@+id/signupFragment"
+        android:label="article_details_layout"
+        tools:layout="@layout/signup_fragment"
+        android:name="com.inferno.mobile.articals.ui.signup.SignupFragment"/>
+
+</navigation>
