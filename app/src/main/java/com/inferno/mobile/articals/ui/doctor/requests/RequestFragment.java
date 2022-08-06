@@ -19,6 +19,7 @@ import com.inferno.mobile.articals.models.ApprovalType;
 import com.inferno.mobile.articals.models.MasterRequest;
 import com.inferno.mobile.articals.models.User;
 import com.inferno.mobile.articals.models.UserType;
+import com.inferno.mobile.articals.utils.RequestStatus;
 import com.inferno.mobile.articals.utils.Token;
 
 import java.util.ArrayList;
@@ -109,8 +110,53 @@ public class RequestFragment extends Fragment {
                             viewModel.approveArticle(Token.getToken(requireContext()), id)
                                     .observe(requireActivity(), msg -> {
                                         if (msg.getCode() == 200) {
-                                            requests.remove(pos);
-                                            adapter.notifyItemRemoved(pos);
+                                            requests.get(pos).setStatus(RequestStatus.approved);
+                                            adapter.notifyItemChanged(pos);
+                                            if (requests.size() == 0) {
+                                                binding.noRequest.setVisibility(View.VISIBLE);
+                                                binding.requestRv.setVisibility(View.GONE);
+                                            }
+                                        }
+                                        Toast.makeText(requireContext(), msg.getMessage(),
+                                                Toast.LENGTH_SHORT).show();
+                                    });
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("No", (dialog, which) -> {
+                            if (requests.get(pos).getStatus() != RequestStatus.banned) {
+                                viewModel.banArticle(Token.getToken(requireContext()), id)
+                                        .observe(requireActivity(), msg -> {
+                                            if (msg.getCode() == 200) {
+                                                requests.get(pos).setStatus(RequestStatus.banned);
+                                                adapter.notifyItemChanged(pos);
+                                                if (requests.size() == 0) {
+                                                    binding.noRequest.setVisibility(View.VISIBLE);
+                                                    binding.requestRv.setVisibility(View.GONE);
+                                                }
+                                            }
+                                            Toast.makeText(requireContext(), msg.getMessage(),
+                                                    Toast.LENGTH_SHORT).show();
+                                        });
+                            } else {
+                                Toast.makeText(requireContext(), "already banned",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                            dialog.dismiss();
+                        })
+                        .setNeutralButton("Cancel", (dialog, which) -> dialog.dismiss())
+                        .show();
+            });
+
+            adapter.setOnApprovedRequestClickListener((id, pos) -> {
+                new AlertDialog.Builder(requireContext())
+                        .setTitle("Ban Article")
+                        .setMessage("Do you want to ban this article ?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            viewModel.banArticle(Token.getToken(requireContext()), id)
+                                    .observe(requireActivity(), msg -> {
+                                        if (msg.getCode() == 200) {
+                                            requests.get(pos).setStatus(RequestStatus.banned);
+                                            adapter.notifyItemChanged(pos);
                                             if (requests.size() == 0) {
                                                 binding.noRequest.setVisibility(View.VISIBLE);
                                                 binding.requestRv.setVisibility(View.GONE);

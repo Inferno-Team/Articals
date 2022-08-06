@@ -43,7 +43,11 @@ public class Article {
     private final BannedArticle banned;
 
     @SerializedName("comments")
-    private final ArrayList<Comment> comments;
+    private  ArrayList<Comment> comments;
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
 
     public Article(Integer id, String name,
                    String type, String universityName,

@@ -7,4 +7,7 @@
     <string name="requests">Requests</string>
     <string name="page_number">Page #%1$s</string>
     <string name="there_are_no_requests">There are no Requests</string>
+    <string name="reference">Reference</string>
+    <string name="upload">upload</string>
+    <string name="reports">Reports</string>
 </resources>

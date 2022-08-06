@@ -1,8 +1,8 @@
 package com.inferno.mobile.articals.models;
 
 import com.google.gson.annotations.SerializedName;
+import com.inferno.mobile.articals.utils.RequestStatus;
 
-import java.util.Date;
 
 public class MasterRequest {
     @SerializedName("id")
@@ -15,15 +15,17 @@ public class MasterRequest {
     private final String universityName;
     @SerializedName("file_url")
     private final String fileUrl;
-    @SerializedName("created_at")
-    private final Date createAt;
+    @SerializedName("create_at")
+    private final String createAt;
     @SerializedName("writer")
     private final User master;
+    @SerializedName("status")
+    private  RequestStatus status;
 
     public MasterRequest(int id, String name, String type,
                          String universityName,
-                         String fileUrl, Date createAt,
-                         User master) {
+                         String fileUrl, String createAt,
+                         User master, RequestStatus status) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -31,6 +33,7 @@ public class MasterRequest {
         this.fileUrl = fileUrl;
         this.createAt = createAt;
         this.master = master;
+        this.status = status;
     }
 
     public int getId() {
@@ -53,11 +56,18 @@ public class MasterRequest {
         return fileUrl;
     }
 
-    public Date getCreateAt() {
+    public String getCreateAt() {
         return createAt;
     }
 
     public User getMaster() {
         return master;
+    }
+
+    public RequestStatus getStatus() {
+        return status;
+    }
+    public void setStatus(RequestStatus status){
+        this.status = status;
     }
 }

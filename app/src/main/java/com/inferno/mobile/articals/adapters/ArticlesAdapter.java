@@ -2,6 +2,7 @@ package com.inferno.mobile.articals.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,7 +22,8 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
     private final Context context;
     private ArrayList<Article> articles;
     private final ArrayList<Article> allArticles;
-    private AdapterOnClickListener onClickListener;
+    private AdapterOnClickListener onClickListener, onLongClickListener,
+            onCommentClickListener;
     private final boolean isRecent;
 
     public void setOnClickListener(AdapterOnClickListener onClickListener) {
@@ -35,16 +37,20 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         this.isRecent = isRecent;
     }
 
-    public void removeOther(ArrayList<Article> articles) {
-        this.articles = new ArrayList<>(allArticles);
-        ArrayList<Article> indexes = new ArrayList<>();
-        for (int i = 0; i < this.articles.size(); i++) {
-            Article article = this.articles.get(i);
-            if (articles.contains(article)) continue;
-            indexes.add(article);
-        }
-        this.articles.removeAll(indexes);
+    public void swapArticle(ArrayList<Article> articles) {
+        this.articles.clear();
+        this.articles.addAll(articles);
         notifyDataSetChanged();
+    }
+    public void returnToRecent() {
+        this.articles.clear();
+        this.articles.addAll(allArticles);
+        notifyDataSetChanged();
+    }
+
+    public void removeOne(int pos) {
+        this.articles.remove(pos);
+        this.notifyItemRemoved(pos);
     }
 
     @NonNull
@@ -58,38 +64,54 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
     public void onBindViewHolder(@NonNull ArticleHolder holder, int position) {
         Article art = articles.get(position);
         holder.binding.setArticle(art);
+        if (art.getComments() == null)
+            art.setComments(new ArrayList<>());
         CommentRVAdapter adapter = new CommentRVAdapter(context, art.getComments());
+        adapter.setOnCommentClickListener(onCommentClickListener);
         setCommentAdapter(holder, adapter);
         setCommentTitle(holder, art);
-
-//        holder.binding.uploadTime.setText(time.toString());
-
         holder.binding.getRoot().setOnClickListener(v -> {
             if (onClickListener != null)
                 onClickListener.onClick(art.getId(), holder.getAdapterPosition());
         });
+        holder.itemView.setOnLongClickListener(v -> {
+            if (onLongClickListener != null)
+                onLongClickListener.onClick(art.getId(), holder.getAdapterPosition());
+            return true;
+        });
 
         if (!isRecent) {
-            if (art.getApproved() == null)
+            if (art.getApproved() == null && art.getBanned() == null)
                 holder.binding.card.setCardBackgroundColor(
                         context.getResources().getColor(R.color.article_background));
             else if (art.getApproved() != null)
                 holder.binding.card.setCardBackgroundColor(
                         context.getResources().getColor(R.color.approved_article_background));
-            else holder.binding.card.setCardBackgroundColor(
+            else {
+                holder.binding.card.setCardBackgroundColor(
                         context.getResources().getColor(R.color.banned_article_background));
+                holder.binding.comments.setVisibility(View.GONE);
+                holder.binding.uploadTime.setText(
+                        art.getBanned().getCreatedAt()
+                );
+            }
+            holder.binding.comments.setVisibility(View.GONE);
         }
     }
 
     private void setCommentAdapter(@NonNull ArticleHolder holder, CommentRVAdapter adapter) {
-        ((RecyclerView) ((LinearLayout) ((MaterialCardView)
-                holder.binding.comments.getChildAt(0)).getChildAt(0))
-                .getChildAt(1))
-                .setAdapter(adapter);
+//        holder.binding.comments.
+//        ((RecyclerView) ((LinearLayout) ((MaterialCardView)
+//                holder.binding.comments.getChildAt(0)).getChildAt(0))
+//                .getChildAt(1))
+//                .setAdapter(adapter);
     }
 
     private void setCommentTitle(@NonNull ArticleHolder holder, Article article) {
-        String title = "Comments (" + article.getComments().size() + ")";
+        int size = 0;
+        if (article.getComments() != null)
+            size = article.getComments().size();
+        String title = "Comments [" + size + "]";
         ((TextView) ((RelativeLayout) ((LinearLayout) ((MaterialCardView)
                 holder.binding.comments.getChildAt(0)).getChildAt(0))
                 .getChildAt(0)).getChildAt(1)).setText(title);
@@ -98,6 +120,14 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
     @Override
     public int getItemCount() {
         return articles.size();
+    }
+
+    public void setOnLongClickListener(AdapterOnClickListener onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
+    }
+
+    public void setOnCommentClickListener(AdapterOnClickListener onCommentClickListener) {
+        this.onCommentClickListener = onCommentClickListener;
     }
 
     public static class ArticleHolder extends RecyclerView.ViewHolder {

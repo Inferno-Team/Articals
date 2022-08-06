@@ -90,7 +90,8 @@ public class ArticleDetailsFragment extends Fragment {
             binding.pdfDownloader.setOnClickListener(v -> {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    int result = requireContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    int result = requireContext().
+                            checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                     if (result == PackageManager.PERMISSION_DENIED) {
                         requestPermissions(new String[]{
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE

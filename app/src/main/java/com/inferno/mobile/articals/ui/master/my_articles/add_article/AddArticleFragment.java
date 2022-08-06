@@ -22,9 +22,11 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.inferno.mobile.articals.R;
+import com.inferno.mobile.articals.adapters.RefAdapter;
 import com.inferno.mobile.articals.databinding.MasterAddArticleBinding;
 import com.inferno.mobile.articals.models.Article;
 import com.inferno.mobile.articals.models.MessageResponse;
+import com.inferno.mobile.articals.models.Reference;
 import com.inferno.mobile.articals.models.User;
 import com.inferno.mobile.articals.models.UserType;
 import com.inferno.mobile.articals.ui.master.my_articles.MasterArticleViewModel;
@@ -43,6 +45,8 @@ public class AddArticleFragment extends Fragment {
     private User selectedDoctor = null;
     private static final int PDF_CHOOSER_RQ = 101;
     private NavController controller;
+    private RefAdapter refAdapter;
+    private ArrayList<Reference> references = new ArrayList<>();
 
     @Nullable
     @Override
@@ -53,6 +57,25 @@ public class AddArticleFragment extends Fragment {
         binding = MasterAddArticleBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(MasterArticleViewModel.class);
         viewModel.init();
+        refAdapter = new RefAdapter(new ArrayList<>());
+        binding.refRv.setAdapter(refAdapter);
+        binding.addRef.setOnClickListener(v -> {
+            String ref = binding.ref.getEditableText().toString();
+            if (ref.equals("")) {
+                Toast.makeText(requireContext(), "لا يمكنك اضافة مصدر فارغ", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            for (int i = 0; i < references.size(); i++) {
+                if (references.get(i).getName().equals(ref)) {
+                    refAdapter.addRef(references.get(i));
+                    binding.ref.setText("");
+                    break;
+                }
+//                Toast.makeText(requireContext(), "المصدر موجود مسبقا", Toast.LENGTH_SHORT).show();
+            }
+
+
+        });
         controller = Navigation.
                 findNavController(container.getRootView().findViewById(R.id.fragment_main));
 
@@ -60,8 +83,10 @@ public class AddArticleFragment extends Fragment {
 
         if (Token.checkUserType(requireContext()) == UserType.doctor) {
             binding.doctorsMenuContainer.setVisibility(View.GONE);
+            binding.refContainer.setVisibility(View.GONE);
         } else {
             viewModel.getDoctorOfField(token).observe(requireActivity(), this::onDoctorDataArrive);
+            viewModel.getReferences(token).observe(requireActivity(), this::onReferenceDataArrive);
 
         }
 
@@ -79,7 +104,6 @@ public class AddArticleFragment extends Fragment {
         binding.upload.setOnClickListener(v -> {
             String name = binding.nameField.getEditableText().toString();
             String univName = binding.univFiled.getEditableText().toString();
-            String type = binding.isResearch.isChecked() ? "research" : "artical";
             if (Token.checkUserType(requireContext()) == UserType.master) {
                 if (selectedDoctor == null) {
                     Toast.makeText(requireContext(),
@@ -89,16 +113,28 @@ public class AddArticleFragment extends Fragment {
                 int doctorId = selectedDoctor.getId();
                 File file = new File(requireContext().getCacheDir().getPath() + "/pdf.pdf");
 
-                viewModel.addArticle(token, name, type, univName, doctorId, file)
+                viewModel.addArticle(token, name, univName, doctorId, file,
+                                refAdapter.getRefsId())
                         .observe(requireActivity(), this::onUploadFinish);
             } else {
                 File file = new File(requireContext().getCacheDir().getPath() + "/pdf.pdf");
-                viewModel.addDoctorArticle(token, name, type, univName, file)
+                viewModel.addDoctorArticle(token, name, univName, file)
                         .observe(requireActivity(), this::onUploadFinish);
             }
 
         });
         return binding.getRoot();
+    }
+
+    private void onReferenceDataArrive(ArrayList<Reference> references) {
+        this.references = references;
+        String[] refs = new String[this.references.size()];
+        for (int i = 0; i < this.references.size(); i++) {
+            refs[i] = this.references.get(i).getName();
+        }
+        ArrayAdapter<String>adapter = new ArrayAdapter<>(requireContext(),android.R.layout.simple_list_item_1,
+                refs);
+        binding.ref.setAdapter(adapter);
     }
 
     private void onUploadFinish(MessageResponse<Article> response) {
@@ -123,7 +159,11 @@ public class AddArticleFragment extends Fragment {
         if (requestCode == PDF_CHOOSER_RQ && resultCode == RESULT_OK && data != null) {
             System.out.println(data.getData().getPath());
             String path = data.getData().getPath();
-            String selectedPath = path.substring(0, 15) + "..." + "" +
+            int last;
+            if (path.length() > 15)
+                last = 15;
+            else last = path.length() - 1;
+            String selectedPath = path.substring(0, last) + "..." +
                     path.substring(path.length() - 5);
             System.out.println(getPathFromURI(data.getData()));
             System.out.println(selectedPath);

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.inferno.mobile.articals.models.ApprovalType;
 import com.inferno.mobile.articals.models.ApprovedArticle;
+import com.inferno.mobile.articals.models.BannedArticle;
 import com.inferno.mobile.articals.models.MasterRequest;
 import com.inferno.mobile.articals.models.MessageResponse;
 import com.inferno.mobile.articals.models.User;
@@ -29,6 +30,9 @@ public class RequestViewModel extends ViewModel {
     LiveData<MessageResponse<ApprovedArticle>> approveArticle(String token, int articleId) {
         return repo.approveArticle(token, articleId);
     }
+    public LiveData<MessageResponse<BannedArticle>> banArticle(String token, int articleId) {
+        return repo.banArticle(token, articleId);
+    }
 
     public LiveData<ArrayList<User>> getAdminRequest(String token) {
         return adminRepo.getUsersRequests(token);
@@ -37,4 +41,6 @@ public class RequestViewModel extends ViewModel {
     public LiveData<MessageResponse<Object>> approveUser(String token, ApprovalType type, int id) {
         return adminRepo.approveUser(token,type.name(),id);
     }
+
+
 }

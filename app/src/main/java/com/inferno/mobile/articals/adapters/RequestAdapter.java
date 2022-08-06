@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.inferno.mobile.articals.R;
 import com.inferno.mobile.articals.databinding.ArticleItemBinding;
 import com.inferno.mobile.articals.models.MasterRequest;
+import com.inferno.mobile.articals.utils.RequestStatus;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,7 +19,7 @@ import java.util.Calendar;
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestHolder> {
     private final Context context;
     private final ArrayList<MasterRequest> requests;
-    private AdapterOnClickListener onClickListener;
+    private AdapterOnClickListener onClickListener, onApprovedRequestClickListener;
 
     public void setOnClickListener(AdapterOnClickListener onClickListener) {
         this.onClickListener = onClickListener;
@@ -41,51 +43,42 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestH
         holder.binding.setRequest(request);
         holder.binding.downloadNumber.setVisibility(View.GONE);
         holder.binding.fieldName.setVisibility(View.GONE);
-
-
-        Calendar now = Calendar.getInstance();
-        now.setTimeInMillis(System.currentTimeMillis());
-        Calendar requestTime = Calendar.getInstance();
-        requestTime.setTime(request.getCreateAt());
-        StringBuilder time = new StringBuilder();
-        Calendar diff = Calendar.getInstance();
-
-        diff.setTimeInMillis(now.getTimeInMillis() - requestTime.getTimeInMillis());
-        int years = diff.get(Calendar.YEAR);
-        int months = diff.get(Calendar.MONTH);
-        int days = diff.get(Calendar.DAY_OF_MONTH);
-
-        int hours = diff.get(Calendar.HOUR);
-        int min = diff.get(Calendar.MINUTE);
-        System.out.println("years : " + years);
-        System.out.println("months : " + months);
-        System.out.println("days : " + days);
-        System.out.println("hours : " + hours);
-        System.out.println("min : " + min);
-        if (years == 1970) {
-            if (months == 0) {
-                if (days == 1) {
-                    time.append(hours).append(" hours ").append(min).append(" min");
-                } else {
-                    time.append(days).append(" days");
-                }
-            } else {
-                time.append(months).append(" months");
+        holder.binding.comments.setVisibility(View.GONE);
+        switch (request.getStatus()) {
+            case banned: {
+                holder.binding.card.setBackgroundColor(
+                        context.getResources().getColor(R.color.banned_article_background)
+                );
+                break;
             }
-        } else {
-            time.append(years).append(" years");
+            case approved: {
+                holder.binding.card.setBackgroundColor(
+                        context.getResources().getColor(R.color.approved_article_background)
+                );
+                break;
+            }
+            default:
+                holder.binding.card.setBackgroundColor(
+                        context.getResources().getColor(R.color.article_background)
+                );
+                break;
         }
-
-        holder.binding.uploadTime.setText(time.toString());
-        holder.binding.getRoot().setOnClickListener(v->{
-            if(onClickListener!=null)
-                onClickListener.onClick(request.getId(),holder.getAdapterPosition());
+        holder.binding.getRoot().setOnClickListener(v -> {
+            if (request.getStatus() == RequestStatus.approved) {
+                if (onApprovedRequestClickListener != null)
+                    onApprovedRequestClickListener.onClick(request.getId(), holder.getAdapterPosition());
+            } else if (onClickListener != null)
+                onClickListener.onClick(request.getId(), holder.getAdapterPosition());
         });
     }
 
     @Override
     public int getItemCount() {
         return requests.size();
+    }
+
+    public void setOnApprovedRequestClickListener(AdapterOnClickListener onApprovedRequestClickListener) {
+        this.onApprovedRequestClickListener = onApprovedRequestClickListener;
     }
 
     public static class RequestHolder extends RecyclerView.ViewHolder {

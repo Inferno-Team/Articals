@@ -2,6 +2,7 @@ package com.inferno.mobile.articals;
 
 import android.app.Application;
 
+import com.inferno.mobile.articals.repos.LoginRepo;
 import com.inferno.mobile.articals.services.API;
 
 import retrofit2.Retrofit;
@@ -18,6 +19,7 @@ public class App extends Application {
                 .baseUrl(API.BASE_URL)
                 .build();
         api = retrofit.create(API.class);
+
     }
 
     public static API getAPI() {

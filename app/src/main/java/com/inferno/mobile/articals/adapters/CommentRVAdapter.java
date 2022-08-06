@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class CommentRVAdapter extends RecyclerView.Adapter<CommentRVAdapter.CommentHolder> {
     private final Context context;
     private final ArrayList<Comment> comments;
+    private AdapterOnClickListener onCommentClickListener;
 
     public CommentRVAdapter(Context context, ArrayList<Comment> comments) {
         this.context = context;
@@ -33,11 +34,21 @@ public class CommentRVAdapter extends RecyclerView.Adapter<CommentRVAdapter.Comm
     @Override
     public void onBindViewHolder(@NonNull CommentHolder holder, int position) {
         holder.binding.setComment(comments.get(position));
+        holder.itemView.setOnClickListener(v -> {
+            if (onCommentClickListener != null) {
+                int index = holder.getAdapterPosition();
+                onCommentClickListener.onClick(comments.get(index).getId(), index);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return comments.size();
+    }
+
+    public void setOnCommentClickListener(AdapterOnClickListener onCommentClickListener) {
+        this.onCommentClickListener = onCommentClickListener;
     }
 
     public static class CommentHolder extends RecyclerView.ViewHolder {

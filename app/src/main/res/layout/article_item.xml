@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -77,10 +77,10 @@
                 android:text="@{String.valueOf(article.downloadNumber)}"
                 android:textColor="@color/yellow_100"
                 android:textSize="13sp"
+                app:drawableBottomCompat="@drawable/ic_baseline_arrow_downward_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="5"
-                app:drawableBottomCompat="@drawable/ic_baseline_arrow_downward_24" />
+                tools:text="5" />
 
             <TextView
                 android:id="@+id/upload_time"
@@ -89,9 +89,9 @@
                 android:layout_margin="4dp"
                 android:drawablePadding="4dp"
                 android:gravity="center_vertical"
+                android:text="@{article== null?request.createAt:article.createdAt}"
                 android:textColor="@color/yellow_100"
                 android:textSize="13sp"
-                android:text="@{article.createdAt}"
                 app:drawableEndCompat="@drawable/ic_baseline_access_time_24"
 
                 app:layout_constraintBottom_toBottomOf="@id/field_name"

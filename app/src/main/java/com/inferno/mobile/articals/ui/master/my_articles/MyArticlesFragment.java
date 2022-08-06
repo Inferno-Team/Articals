@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 public class MyArticlesFragment extends Fragment {
     private MasterMyArticlesBinding binding;
     private NavController controller;
+    private MasterArticleViewModel viewModel;
 
     @Nullable
     @Override
@@ -35,7 +37,7 @@ public class MyArticlesFragment extends Fragment {
         binding = MasterMyArticlesBinding.inflate(inflater, container, false);
         controller = Navigation.findNavController(
                 container.getRootView().findViewById(R.id.fragment_main));
-        MasterArticleViewModel viewModel = new ViewModelProvider(requireActivity())
+        viewModel = new ViewModelProvider(requireActivity())
                 .get(MasterArticleViewModel.class);
         viewModel.init();
         String token = Token.getToken(requireContext());
@@ -46,7 +48,7 @@ public class MyArticlesFragment extends Fragment {
         binding.addArticleButton.setOnClickListener(l -> {
             NavController controller = Navigation.
                     findNavController(container.getRootView().findViewById(R.id.fragment_main));
-            controller.navigate(R.id.action_masterMyArticlesFragment_to_addArticleFragment);
+            controller.navigate(R.id.action_myArticlesFragment_to_addArticleFragment);
         });
         return binding.getRoot();
     }
@@ -60,7 +62,29 @@ public class MyArticlesFragment extends Fragment {
 
         }
         ArticlesAdapter adapter = new ArticlesAdapter(requireContext(),
-                response.getArticles(),false);
+                response.getArticles(), false);
+        adapter.setOnLongClickListener((id, pos) -> {
+            new AlertDialog.Builder(requireActivity())
+                    .setMessage("Are you sure you want to delete this article ?")
+                    .setTitle("Conformation")
+                    .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        dialog.dismiss();
+                        String token = Token.getToken(requireContext());
+                        boolean master = Token.checkUserType(requireContext())
+                                        == UserType.master;
+                        viewModel.deleteArticle(token, id,master)
+                                .observe(requireActivity(), _response -> {
+                                    if (_response.getCode() == 200) {
+                                        adapter.removeOne(pos);
+                                    }
+                                    Toast.makeText(requireContext(), _response.getMessage(),
+                                            Toast.LENGTH_LONG).show();
+                                });
+                    })
+                    .show();
+        });
+
         binding.myArticles.setAdapter(adapter);
     }
 }

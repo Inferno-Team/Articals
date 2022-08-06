@@ -2,6 +2,7 @@ package com.inferno.mobile.articals.repos;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.inferno.mobile.articals.App;
@@ -10,6 +11,7 @@ import com.inferno.mobile.articals.models.ArticlesResponse;
 import com.inferno.mobile.articals.models.GetMyArticleResponse;
 import com.inferno.mobile.articals.models.MasterArticleResponse;
 import com.inferno.mobile.articals.models.MessageResponse;
+import com.inferno.mobile.articals.models.Reference;
 import com.inferno.mobile.articals.models.User;
 
 import java.io.File;
@@ -78,21 +80,26 @@ public class MasterRepo {
         return liveData;
     }
 
-    public MutableLiveData<MessageResponse<Article>> addArticle(String token, String name, String type,
-                                                                String univName, int doctorId, File file) {
+    public MutableLiveData<MessageResponse<Article>> addArticle(String token, String name,
+                                                                String univName, int doctorId,
+                                                                File file,
+                                                                ArrayList<Integer> refs) {
         MutableLiveData<MessageResponse<Article>> liveData = new MutableLiveData<>();
 
         RequestBody nameRequest = RequestBody.create(MediaType.parse("plan/text"), name);
-        RequestBody typeRequest = RequestBody.create(MediaType.parse("plan/text"), type);
+        RequestBody[] refBodies = new RequestBody[refs.size()];
+        for (int i = 0; i < refs.size(); i++) {
+            refBodies[i] = RequestBody.create(MediaType.parse("plan/text"),
+                    String.valueOf(refs.get(i)));
+        }
         RequestBody univNameRequest = RequestBody.create(MediaType.parse("plan/text"), univName);
         RequestBody doctorIdRequest = RequestBody.create(MediaType.parse("plan/text"),
                 String.valueOf(doctorId));
         RequestBody pdf = RequestBody.create(MediaType.parse("application/pdf"), file);
         MultipartBody.Part multipartBody = MultipartBody.Part
                 .createFormData("pdf", file.getName(), pdf);
-        App.getAPI().addArticle("Bearer " + token, nameRequest,
-                typeRequest, univNameRequest,
-                doctorIdRequest, multipartBody)
+        App.getAPI().addArticle("Bearer " + token, nameRequest, univNameRequest,
+                        doctorIdRequest, refBodies, multipartBody)
                 .enqueue(new Callback<MessageResponse<Article>>() {
                     @Override
                     public void onResponse(Call<MessageResponse<Article>> call,
@@ -144,7 +151,7 @@ public class MasterRepo {
         MultipartBody.Part multipartBody = MultipartBody.Part
                 .createFormData("pdf", file.getName(), pdf);
         App.getAPI().addDoctorArticle("Bearer " + token, nameRequest,
-                typeRequest, univNameRequest, multipartBody)
+                        typeRequest, univNameRequest, multipartBody)
                 .enqueue(new Callback<MessageResponse<Article>>() {
                     @Override
                     public void onResponse(Call<MessageResponse<Article>> call,
@@ -164,4 +171,43 @@ public class MasterRepo {
         return liveData;
     }
 
+    public MutableLiveData<MessageResponse<Article>> removeArticle(String token, int id) {
+        MutableLiveData<MessageResponse<Article>> liveData = new MutableLiveData<>();
+        App.getAPI().removeMasterArticle("Bearer " +token, id)
+                .enqueue(new Callback<MessageResponse<Article>>() {
+                    @Override
+                    public void onResponse(Call<MessageResponse<Article>> call,
+                                           Response<MessageResponse<Article>> response) {
+                        if (response.isSuccessful() && response.body() != null)
+                            liveData.postValue(response.body());
+                        else Log.e(TAG, "removeArticle@onResponse #" + response.code());
+                    }
+
+                    @Override
+                    public void onFailure(Call<MessageResponse<Article>> call, Throwable t) {
+                        Log.e(TAG, "removeArticle@onFailure", t);
+                    }
+                });
+        return liveData;
+    }
+
+    public MutableLiveData<ArrayList<Reference>> getReferences(String token) {
+        MutableLiveData<ArrayList<Reference>> liveData = new MutableLiveData<>();
+        App.getAPI().getReferences("Bearer " + token)
+                .enqueue(new Callback<ArrayList<Reference>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<Reference>> call,
+                                           Response<ArrayList<Reference>> response) {
+                        if (response.isSuccessful() && response.body() != null)
+                            liveData.postValue(response.body());
+                        else Log.e(TAG, "getReferences@onResponse #" + response.code());
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<Reference>> call, Throwable t) {
+                        Log.e(TAG, "getReferences@onFailure", t);
+                    }
+                });
+        return liveData;
+    }
 }

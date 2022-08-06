@@ -17,8 +17,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="8dp"
-        app:fabSize="mini"
-        android:backgroundTint="@color/yellow_200"
+
+        app:tint="@color/white"
+        app:backgroundTint="@color/yellow_200"
         android:src="@drawable/ic_baseline_add_24"
         android:id="@+id/add_article_button"
         />

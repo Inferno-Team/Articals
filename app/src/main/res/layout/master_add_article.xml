@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".ui.master.my_articles.add_article.AddArticleFragment"
     android:background="@color/master_background">
 
     <TextView
@@ -96,15 +97,6 @@
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/is_research"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Research ?"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@id/university_name_container"
-        app:layout_constraintTop_toBottomOf="@id/doctors_menu_container" />
 
     <ImageView
         android:id="@+id/choose_file"
@@ -114,8 +106,8 @@
         android:rotation="-90"
         android:src="@drawable/ic_baseline_add_link_24"
         app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintStart_toStartOf="@id/is_research"
-        app:layout_constraintTop_toBottomOf="@id/is_research"
+        app:layout_constraintStart_toStartOf="@id/doctors_menu_container"
+        app:layout_constraintTop_toBottomOf="@id/doctors_menu_container"
         app:layout_constraintWidth_percent="0.2"
         app:tint="@color/white" />
 
@@ -125,10 +117,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/poppins_medium"
+        android:lines="1"
         android:padding="4dp"
         android:textColor="@color/white"
         android:textSize="12sp"
-        android:lines="1"
         app:layout_constraintBottom_toBottomOf="@id/choose_file"
         app:layout_constraintEnd_toEndOf="@id/doctors_menu_container"
         app:layout_constraintHorizontal_bias="0.1"
@@ -136,18 +128,81 @@
         app:layout_constraintTop_toTopOf="@id/choose_file"
         tools:text="pdf.pdf" />
 
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/ref_container"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintEnd_toEndOf="@id/doctors_menu_container"
+        app:layout_constraintStart_toStartOf="@id/doctors_menu_container"
+        app:layout_constraintBottom_toTopOf="@id/upload"
+        app:layout_constraintTop_toBottomOf="@id/choose_file">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_weight="7">
+                    <AutoCompleteTextView
+                        android:id="@+id/ref"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/reference"
+                        android:inputType="none"
+                      />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/add_ref"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:src="@drawable/ic_baseline_add_24" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ref_rv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="9"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/ref_item" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
     <Button
         android:id="@+id/upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:padding="16dp"
-        android:text="upload"
+        android:layout_marginBottom="16dp"
         android:alpha="0.65"
-        app:layout_constraintHorizontal_bias="1"
+        android:padding="16dp"
+        android:text="@string/upload"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/university_name_container"
-        app:layout_constraintStart_toStartOf="@id/university_name_container"
-        app:layout_constraintTop_toBottomOf="@id/choose_file" />
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="@id/university_name_container" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

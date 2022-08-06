@@ -12,8 +12,13 @@
         android:orderInCategory="2"
         android:title="@string/requests" />
     <item
+        android:id="@+id/reportsFragment"
+        android:icon="@drawable/ic_baseline_warning_24"
+        android:orderInCategory="3"
+        android:title="@string/reports" />
+    <item
         android:id="@+id/fragmentSettings"
         android:icon="@drawable/ic_baseline_settings_24"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         android:title="@string/settings" />
 </menu>

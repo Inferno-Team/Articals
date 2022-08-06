@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.inferno.mobile.articals.R;
 import com.inferno.mobile.articals.activities.MainActivity;
@@ -35,8 +36,7 @@ public class LoginFragment extends Fragment {
         LoginViewModel viewModel = new ViewModelProvider(requireActivity())
                 .get(LoginViewModel.class);
         viewModel.init();
-        controller = Navigation.findNavController(
-                container.getRootView().findViewById(R.id.fragment_main));
+        controller = NavHostFragment.findNavController(this);
         binding = LoginFragmentBinding.inflate(inflater, container, false);
         binding.login.setOnClickListener(l -> {
             String email = binding.emailField.getEditableText().toString();

@@ -15,7 +15,7 @@ public class BannedArticle {
     private final Integer articalId;
 
     @SerializedName("created_at")
-    private final Date createdAt;
+    private final String createdAt;
 
     @SerializedName("updated_at")
     private final Date updatedAt;
@@ -24,7 +24,7 @@ public class BannedArticle {
     private final Article article;
 
     public BannedArticle(Integer id, Integer banId, Integer articalId,
-                         Date createdAt, Date updatedAt, Article article) {
+                         String createdAt, Date updatedAt, Article article) {
         this.id = id;
         this.banId = banId;
         this.articalId = articalId;
@@ -45,7 +45,7 @@ public class BannedArticle {
         return articalId;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 

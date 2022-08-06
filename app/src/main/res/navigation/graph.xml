@@ -27,11 +27,12 @@
             app:destination="@id/signupFragment" />
     </fragment>
     <fragment
+        tools:layout="@layout/master_my_articles"
         android:id="@+id/myArticlesFragment"
         android:name="com.inferno.mobile.articals.ui.master.my_articles.MyArticlesFragment"
         android:label="MyArticlesFragment" >
         <action
-            android:id="@+id/action_masterMyArticlesFragment_to_addArticleFragment"
+            android:id="@+id/action_myArticlesFragment_to_addArticleFragment"
             app:destination="@id/addArticleFragment" />
     </fragment>
     <fragment
@@ -39,10 +40,8 @@
         android:name="com.inferno.mobile.articals.ui.settings.SettingsFragment"
         android:label="SettingsFragment" />
     <fragment
-        android:id="@+id/addArticleFragment"
-        android:name="com.inferno.mobile.articals.ui.master.my_articles.add_article.AddArticleFragment"
-        android:label="AddArticleFragment" />
-    <fragment
+        tools:layout="@layout/request_fragment"
+
         android:id="@+id/requestFragment"
         android:name="com.inferno.mobile.articals.ui.doctor.requests.RequestFragment"
         android:label="RequestFragment" />
@@ -65,5 +64,10 @@
         android:label="article_details_layout"
         tools:layout="@layout/signup_fragment"
         android:name="com.inferno.mobile.articals.ui.signup.SignupFragment"/>
+    <fragment
+        android:id="@+id/addArticleFragment"
+        android:name="com.inferno.mobile.articals.ui.master.my_articles.add_article.AddArticleFragment"
+        android:label="master_add_article"
+        tools:layout="@layout/master_add_article" />
 
 </navigation>
