@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
                 case master: {
                     binding.bottomNavView.inflateMenu(R.menu.master_menu);
+                }break;
+                case normal:{
+                    binding.bottomNavView.inflateMenu(R.menu.nav_menu);
                 }
                 break;
             }
