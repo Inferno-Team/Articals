@@ -26,8 +26,8 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface API {
-    String BASE_URL = "http://192.168.43.114:8000/";
-    String PDF_URL = "http://192.168.43.114:8000/";
+    String BASE_URL = "http://192.168.43.113:8000/";
+    String PDF_URL = "http://192.168.43.113:8000/";
 //    String BASE_URL = "http://192.168.1.6:8000/";
 //    String PDF_URL = "http://192.168.1.6:8000";
 
@@ -145,4 +145,7 @@ public interface API {
 
     @GET("api/master/get_refrences")
     Call<ArrayList<Reference>> getReferences(@Header("Authorization") String token);
+
+    @GET("api/admin/get_all_reports")
+    Call<ArrayList<Report>> getAllReport(@Header("Authorization") String token);
 }

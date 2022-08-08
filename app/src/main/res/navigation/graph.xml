@@ -36,6 +36,7 @@
             app:destination="@id/addArticleFragment" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_settings"
         android:id="@+id/fragmentSettings"
         android:name="com.inferno.mobile.articals.ui.settings.SettingsFragment"
         android:label="SettingsFragment" />
@@ -69,5 +70,10 @@
         android:name="com.inferno.mobile.articals.ui.master.my_articles.add_article.AddArticleFragment"
         android:label="master_add_article"
         tools:layout="@layout/master_add_article" />
+    <fragment
+        android:id="@+id/reportsFragment"
+        android:name="com.inferno.mobile.articals.ui.admin_reports.AdminReportFragment"
+        android:label="admin_report_fragmnet"
+        tools:layout="@layout/admin_report_fragmnet" />
 
 </navigation>

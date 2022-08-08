@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.inferno.mobile.articals.App;
 import com.inferno.mobile.articals.models.MessageResponse;
+import com.inferno.mobile.articals.models.Report;
 import com.inferno.mobile.articals.models.User;
 
 import java.util.ArrayList;
@@ -65,6 +66,25 @@ public class AdminRepo {
                         Log.e(TAG, "approveUser@onFailure", t);
                     }
                 });
+        return liveData;
+    }
+
+    public MutableLiveData<ArrayList<Report>> getAllReports(String token) {
+        MutableLiveData<ArrayList<Report>> liveData = new MutableLiveData<>();
+        App.getAPI().getAllReport("Bearer "+token).enqueue(new Callback<ArrayList<Report>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Report>> call,
+                                   Response<ArrayList<Report>> response) {
+                if (response.isSuccessful() && response.body() != null)
+                    liveData.postValue(response.body());
+                else Log.e(TAG, "getAllReports@onResponse #" + response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Report>> call, Throwable t) {
+                Log.e(TAG, "getAllReports@onFailure", t);
+            }
+        });
         return liveData;
     }
 }
