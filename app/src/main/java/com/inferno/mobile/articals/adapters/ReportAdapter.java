@@ -16,7 +16,7 @@ import java.util.Calendar;
 
 public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder> {
     private final ArrayList<Report> reports;
-
+    private AdapterOnClickListener onReportClickListener;
     public ReportAdapter(ArrayList<Report> reports) {
         this.reports = reports;
     }
@@ -39,12 +39,23 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
                 + "-" + (calendar.get(Calendar.MONTH) + 1)
                 + "-" + (calendar.get(Calendar.DAY_OF_MONTH));
         holder.binding.reportDate.setText(time);
+        holder.itemView.setOnClickListener(v->{
+            if (onReportClickListener != null) {
+                int index = holder.getAdapterPosition();
+                onReportClickListener.onClick(reports.get(index).
+                        getComment().getUser().getId(), index);
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
         return reports.size();
+    }
+
+    public void setOnReportClickListener(AdapterOnClickListener onReportClickListener) {
+        this.onReportClickListener = onReportClickListener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

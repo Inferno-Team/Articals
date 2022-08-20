@@ -15,6 +15,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.inferno.mobile.articals.R;
 import com.inferno.mobile.articals.databinding.ArticleItemBinding;
 import com.inferno.mobile.articals.models.Article;
+import com.inferno.mobile.articals.models.Comment;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
     private ArrayList<Article> articles;
     private final ArrayList<Article> allArticles;
     private AdapterOnClickListener onClickListener, onLongClickListener,
-            onCommentClickListener;
+            onCommentClickListener, onAddCommentClickListener;
     private final boolean isRecent;
 
     public void setOnClickListener(AdapterOnClickListener onClickListener) {
@@ -42,6 +43,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         this.articles.addAll(articles);
         notifyDataSetChanged();
     }
+
     public void returnToRecent() {
         this.articles.clear();
         this.articles.addAll(allArticles);
@@ -96,15 +98,19 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
                 );
             }
             holder.binding.comments.setVisibility(View.GONE);
+            holder.binding.addComment.setVisibility(View.GONE);
         }
+        holder.binding.addComment.setOnClickListener(v -> {
+            if (onAddCommentClickListener != null)
+                onAddCommentClickListener.onClick(art.getId(), holder.getAdapterPosition());
+        });
     }
 
     private void setCommentAdapter(@NonNull ArticleHolder holder, CommentRVAdapter adapter) {
-//        holder.binding.comments.
-//        ((RecyclerView) ((LinearLayout) ((MaterialCardView)
-//                holder.binding.comments.getChildAt(0)).getChildAt(0))
-//                .getChildAt(1))
-//                .setAdapter(adapter);
+        ((RecyclerView) ((LinearLayout) ((MaterialCardView)
+                holder.binding.comments.getChildAt(0)).getChildAt(0))
+                .getChildAt(1))
+                .swapAdapter(adapter,true);
     }
 
     private void setCommentTitle(@NonNull ArticleHolder holder, Article article) {
@@ -128,6 +134,15 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
 
     public void setOnCommentClickListener(AdapterOnClickListener onCommentClickListener) {
         this.onCommentClickListener = onCommentClickListener;
+    }
+
+    public void setOnAddCommentClickListener(AdapterOnClickListener onAddCommentClickListener) {
+        this.onAddCommentClickListener = onAddCommentClickListener;
+    }
+
+    public void addNewComment(int pos, Comment comment) {
+        articles.get(pos).getComments().add(comment);
+        notifyItemChanged(pos);
     }
 
     public static class ArticleHolder extends RecyclerView.ViewHolder {

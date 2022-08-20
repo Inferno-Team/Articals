@@ -66,9 +66,10 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestH
         holder.binding.getRoot().setOnClickListener(v -> {
             if (request.getStatus() == RequestStatus.approved) {
                 if (onApprovedRequestClickListener != null)
-                    onApprovedRequestClickListener.onClick(request.getId(), holder.getAdapterPosition());
+                    onApprovedRequestClickListener.onClick(request.getMaster().getId(),
+                            holder.getAdapterPosition());
             } else if (onClickListener != null)
-                onClickListener.onClick(request.getId(), holder.getAdapterPosition());
+                onClickListener.onClick(request.getMaster().getId(), holder.getAdapterPosition());
         });
     }
 

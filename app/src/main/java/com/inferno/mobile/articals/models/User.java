@@ -20,6 +20,8 @@ public class User {
     @SerializedName("created_at")
     private final String createdAt;
 
+    private String fullName;
+
     public User(int id, String firstName, String lastName,
                 String email, UserType type,
                 Field field, ApprovalType approvalType, String createdAt) {
@@ -31,6 +33,7 @@ public class User {
         this.field = field;
         this.approvalType = approvalType;
         this.createdAt = createdAt;
+        this.fullName = firstName + " " + lastName;
     }
 
     public int getId() {
@@ -62,10 +65,14 @@ public class User {
     }
 
     public String getFullName() {
-        return this.getFirstName() + " " + this.getLastName();
+        return this.fullName;
     }
 
     public String getCreatedAt() {
         return createdAt;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }

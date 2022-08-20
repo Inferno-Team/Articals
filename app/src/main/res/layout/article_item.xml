@@ -103,16 +103,27 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-
                 app:animationDuration="300"
                 app:expandOnClick="true"
                 app:expandableCardColor="@android:color/transparent"
                 app:inner_view="@layout/view_expandable_card"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/upload_time"
+                app:layout_constraintWidth_percent="0.9"
                 app:startExpanded="false"
                 app:title="Comments" />
+
+            <ImageView
+                android:id="@+id/add_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_add_24"
+                app:layout_constraintBottom_toBottomOf="@id/comments"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/comments"
+                app:layout_constraintTop_toTopOf="@id/comments" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

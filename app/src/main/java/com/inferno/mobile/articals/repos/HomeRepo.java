@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.inferno.mobile.articals.App;
 import com.inferno.mobile.articals.models.Article;
 import com.inferno.mobile.articals.models.ArticlesResponse;
+import com.inferno.mobile.articals.models.Comment;
 import com.inferno.mobile.articals.models.MessageResponse;
 import com.inferno.mobile.articals.models.Report;
 
@@ -144,6 +145,26 @@ public class HomeRepo {
                     @Override
                     public void onFailure(Call<ArrayList<Article>> call, Throwable t) {
                         Log.e(TAG, "searchArticles#onFailure", t);
+                    }
+                });
+        return liveData;
+    }
+
+    public MutableLiveData<MessageResponse<Comment>> addComment(String token, String comment, int id) {
+        MutableLiveData<MessageResponse<Comment>> liveData = new MutableLiveData<>();
+        App.getAPI()
+                .addComment("Bearer " + token, comment, id)
+                .enqueue(new Callback<MessageResponse<Comment>>() {
+                    @Override
+                    public void onResponse(Call<MessageResponse<Comment>> call,
+                                           Response<MessageResponse<Comment>> response) {
+                        if (response.isSuccessful() && response.body() != null)
+                            liveData.postValue(response.body());
+                        else Log.e(TAG, "addComment@onResponse #" + response.code());
+                    }
+                    @Override
+                    public void onFailure(Call<MessageResponse<Comment>> call, Throwable t) {
+                        Log.e(TAG, "addComment#onFailure", t);
                     }
                 });
         return liveData;

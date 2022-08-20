@@ -2,10 +2,12 @@ package com.inferno.mobile.articals.ui.home;
 
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.inferno.mobile.articals.models.Article;
 import com.inferno.mobile.articals.models.ArticlesResponse;
+import com.inferno.mobile.articals.models.Comment;
 import com.inferno.mobile.articals.models.MessageResponse;
 import com.inferno.mobile.articals.models.Report;
 import com.inferno.mobile.articals.repos.HomeRepo;
@@ -35,5 +37,9 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<ArrayList<Article>> searchArticles(String name, String token) {
         return homeRepo.searchArticles(name, token);
+    }
+
+    public MutableLiveData<MessageResponse<Comment>> addComment(String token, String comment, int id) {
+        return homeRepo.addComment(token, comment, id);
     }
 }

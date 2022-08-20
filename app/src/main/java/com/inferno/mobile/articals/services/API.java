@@ -3,6 +3,8 @@ package com.inferno.mobile.articals.services;
 import com.inferno.mobile.articals.models.ApprovedArticle;
 import com.inferno.mobile.articals.models.Article;
 import com.inferno.mobile.articals.models.BannedArticle;
+import com.inferno.mobile.articals.models.BannedUser;
+import com.inferno.mobile.articals.models.Comment;
 import com.inferno.mobile.articals.models.GetMyArticleResponse;
 import com.inferno.mobile.articals.models.LoginResponse;
 import com.inferno.mobile.articals.models.MasterRequest;
@@ -26,8 +28,8 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface API {
-    String BASE_URL = "http://192.168.43.113:8000/";
-    String PDF_URL = "http://192.168.43.113:8000/";
+    String BASE_URL = "http://192.168.43.114:8000/";
+    String PDF_URL = "http://192.168.43.114:8000/";
 //    String BASE_URL = "http://192.168.1.6:8000/";
 //    String PDF_URL = "http://192.168.1.6:8000";
 
@@ -148,4 +150,25 @@ public interface API {
 
     @GET("api/admin/get_all_reports")
     Call<ArrayList<Report>> getAllReport(@Header("Authorization") String token);
+
+    @POST("api/common/add_comment")
+    @FormUrlEncoded
+    Call<MessageResponse<Comment>> addComment(
+            @Header("Authorization") String token,
+            @Field("comment") String comment,
+            @Field("art_id") int id);
+
+    @POST("api/admin/ban_user")
+    @FormUrlEncoded
+    Call<MessageResponse<String>> banUser(@Header("Authorization") String token,
+                                          @Field("user_id") int id,
+                                          @Field("cause") String reason);
+
+    @POST("api/admin/get_banned_users")
+    Call<ArrayList<BannedUser>> getBannedUsers(@Header("Authorization") String token);
+
+    @POST("api/admin/un_banned_users")
+    @FormUrlEncoded
+    Call<MessageResponse<String>> unBanUser(@Header("Authorization") String token,
+                                            @Field("user_id") int id);
 }

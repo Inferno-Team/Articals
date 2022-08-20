@@ -33,6 +33,9 @@ public class CommentRVAdapter extends RecyclerView.Adapter<CommentRVAdapter.Comm
 
     @Override
     public void onBindViewHolder(@NonNull CommentHolder holder, int position) {
+        Comment comment = comments.get(position);
+        comment.getUser().setFullName(comment.getUser().getFirstName()
+                + " " + comment.getUser().getLastName());
         holder.binding.setComment(comments.get(position));
         holder.itemView.setOnClickListener(v -> {
             if (onCommentClickListener != null) {

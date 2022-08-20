@@ -15,18 +15,18 @@
         <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/activity_main.xml" value="0.13958333333333334" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/admin_report_fragmnet.xml" value="0.12152777777777778" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/article_details_layout.xml" value="0.15" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/article_item.xml" value="0.13923611111111112" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/article_item.xml" value="0.16919831223628692" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/comment_item.xml" value="0.13958333333333334" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/doctor_menu_item.xml" value="0.13958333333333334" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/fragment_settings.xml" value="0.13958333333333334" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/home_fragment.xml" value="0.13958333333333334" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/home_fragment.xml" value="0.16919831223628692" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/login_fragment.xml" value="0.13680555555555557" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/master_add_article.xml" value="0.13780068728522338" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/master_my_articles.xml" value="0.13958333333333334" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/master_settings.xml" value="0.13958333333333334" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/ref_item.xml" value="0.13780068728522338" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/report_dialog_layout.xml" value="0.1388888888888889" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/report_item.xml" value="0.16919831223628692" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/report_dialog_layout.xml" value="0.21" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/report_item.xml" value="0.21" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/request_fragment.xml" value="0.13958333333333334" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/signup_fragment.xml" value="0.13958333333333334" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Articals/app/src/main/res/layout/splash_activity.xml" value="0.13958333333333334" />

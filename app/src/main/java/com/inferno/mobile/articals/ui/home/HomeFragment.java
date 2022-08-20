@@ -102,6 +102,33 @@ public class HomeFragment extends Fragment {
                 reportDialog.dismiss();
             });
         });
+        adapter.setOnAddCommentClickListener((id, pos) -> {
+            ReportDialogLayoutBinding reportBinding =
+                    ReportDialogLayoutBinding.inflate(getLayoutInflater());
+            AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                    .setView(reportBinding.getRoot())
+                    .show();
+            reportBinding.makeReport.setText("Add Comment");
+            reportBinding.title.setText("add new comment");
+            reportBinding.reportMsg.setHint("write your comment");
+            reportBinding.makeReport.setOnClickListener(v -> {
+                String token = Token.getToken(requireContext());
+                String comment = reportBinding.reportMsg.getEditableText().toString();
+                reportBinding.reportMsg.setText("");
+                viewModel.addComment(token, comment, id)
+                        .observe(requireActivity(), response -> {
+                            if (response.getCode() == 200) {
+                                // add this comment to this article
+                                adapter.addNewComment(pos, response.getData());
+
+                            }
+                            Toast.makeText(requireContext(), response.getMessage()
+                                    , Toast.LENGTH_SHORT).show();
+
+                        });
+                dialog.dismiss();
+            });
+        });
         binding.recentArticles.setAdapter(adapter);
 
     }
